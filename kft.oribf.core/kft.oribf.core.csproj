@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net35</TargetFramework>
-    <AssemblyName>kft.oribf.core</AssemblyName>
+    <AssemblyName>com.kft.oribf.core</AssemblyName>
     <Description>My first plugin</Description>
     <Version>1.0.0</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>

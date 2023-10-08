@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net35</TargetFramework>
-    <AssemblyName>kft.oribf.configmenu</AssemblyName>
+    <AssemblyName>com.kft.oribf.configmenu</AssemblyName>
     <Description>My first plugin</Description>
     <Version>1.0.0</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -15,8 +15,18 @@
     <PackageReference Include="BepInEx.PluginInfoProps" Version="1.*" />
     <PackageReference Include="UnityEngine.Modules" Version="5.3.2" IncludeAssets="compile" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>../kft.oribf.core/lib/Assembly-CSharp.dll</HintPath>
+    </Reference>
+  </ItemGroup>
   
   <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\kft.oribf.uilib\kft.oribf.uilib.csproj" />
   </ItemGroup>
 </Project>

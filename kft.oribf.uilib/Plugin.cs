@@ -3,7 +3,7 @@
 namespace kft.oribf.uilib;
 
 [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
-[BepInDependency("kft.oribf.core")]
+[BepInDependency("com.kft.oribf.core")]
 public class Plugin : BaseUnityPlugin
 {
     private void Awake()
