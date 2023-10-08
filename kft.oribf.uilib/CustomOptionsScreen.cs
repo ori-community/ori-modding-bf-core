@@ -1,17 +1,12 @@
 ﻿using BepInEx.Configuration;
 using kft.oribf.core;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace kft.oribf.uilib;
 
 public abstract class CustomOptionsScreen : MonoBehaviour
 {
-    private bool dirty;
-    //private List<SettingBase> settings = new List<SettingBase>();
-    private readonly List<ConfigEntryBase> settings = new List<ConfigEntryBase>();
-
     public CleverMenuItemLayout layout;
     public CleverMenuItemSelectionManager selectionManager;
     public CleverMenuItemTooltipController tooltipController;
@@ -52,15 +47,6 @@ public abstract class CustomOptionsScreen : MonoBehaviour
     }
 
     public abstract void InitScreen();
-
-    private void OnDisable()
-    {
-        if (dirty)
-        {
-            //SettingsFile.Update(settings);
-            dirty = false;
-        }
-    }
 
     private void AddToLayout(CleverMenuItem item)
     {
@@ -118,54 +104,49 @@ public abstract class CustomOptionsScreen : MonoBehaviour
         cleverMenuItem.PressedCallback += () =>
         {
             toggleCustomSettingsAction.Toggle();
-            dirty = true;
         };
 
         ConfigureTooltip(cleverMenuItem.GetComponent<CleverMenuItemTooltip>(), tooltip);
-        settings.Add(setting);
     }
 
-    //public void AddSlider(ConfigEntry<float> setting, string label, float min, float max, float step, string tooltip)
-    //{
-    //    // Template is music volume slider
-    //    GameObject clone = Instantiate(SettingsScreen.Instance.transform.Find("highlightFade/pivot/musicVolume").gameObject);
-    //    clone.gameObject.name = label;
-    //    foreach (var c in clone.GetComponentsInChildren<MonoBehaviour>())
-    //        c.enabled = true;
+    public void AddSlider(ConfigEntry<float> setting, string label, float min, float max, float step, string tooltip)
+    {
+        // Template is music volume slider
+        GameObject clone = Instantiate(SettingsScreen.Instance.transform.Find("highlightFade/pivot/musicVolume").gameObject);
+        clone.gameObject.name = label;
+        foreach (var c in clone.GetComponentsInChildren<MonoBehaviour>())
+            c.enabled = true;
 
-    //    // Add to navigation manager (required for all option types)
-    //    clone.transform.SetParent(pivot);
-    //    CleverMenuItem cleverMenuItem = clone.GetComponent<CleverMenuItem>();
-    //    selectionManager.MenuItems.Add(cleverMenuItem);
-    //    AddToLayout(cleverMenuItem);
+        // Add to navigation manager (required for all option types)
+        clone.transform.SetParent(pivot);
+        CleverMenuItem cleverMenuItem = clone.GetComponent<CleverMenuItem>();
+        selectionManager.MenuItems.Add(cleverMenuItem);
+        AddToLayout(cleverMenuItem);
 
-    //    // Add to group (required for sliders and dropdown items, but not toggles)
-    //    CleverValueSlider slider = clone.transform.FindChild("slider").GetComponent<CleverValueSlider>();
-    //    slider.NavigateMessageBoxes = new MessageBox[]
-    //    {
-    //        transform.FindChild("highlightFade/legend/pcLegend/navigate").GetComponent<MessageBox>(),
-    //        transform.FindChild("highlightFade/legend/xBoxLegend/navigate").GetComponent<MessageBox>()
-    //    };
-    //    group.AddItem(cleverMenuItem, slider);
+        // Add to group (required for sliders and dropdown items, but not toggles)
+        CleverValueSlider slider = clone.transform.FindChild("slider").GetComponent<CleverValueSlider>();
+        slider.NavigateMessageBoxes = new MessageBox[]
+        {
+            transform.FindChild("highlightFade/legend/pcLegend/navigate").GetComponent<MessageBox>(),
+            transform.FindChild("highlightFade/legend/xBoxLegend/navigate").GetComponent<MessageBox>()
+        };
+        group.AddItem(cleverMenuItem, slider);
 
-    //    slider.MinValue = min;
-    //    slider.MaxValue = max;
-    //    slider.Step = step;
-    //    CustomSlider customSlider = slider.gameObject.AddComponent<CustomSlider>();
-    //    customSlider.Setting = setting;
-    //    customSlider.OnSliderChanged += value => dirty = true;
+        slider.MinValue = min;
+        slider.MaxValue = max;
+        slider.Step = step;
+        CustomSlider customSlider = slider.gameObject.AddComponent<CustomSlider>();
+        customSlider.Setting = setting;
 
-    //    MessageBox nameTextBox = clone.transform.Find("nameText").GetComponent<MessageBox>();
-    //    nameTextBox.MessageProvider = null;
-    //    nameTextBox.SetMessage(new MessageDescriptor(label));
+        MessageBox nameTextBox = clone.transform.Find("nameText").GetComponent<MessageBox>();
+        nameTextBox.MessageProvider = null;
+        nameTextBox.SetMessage(new MessageDescriptor(label));
 
-    //    ConfigureTooltip(clone.GetComponent<CleverMenuItemTooltip>(), tooltip);
+        ConfigureTooltip(clone.GetComponent<CleverMenuItemTooltip>(), tooltip);
 
-    //    foreach (var renderer in clone.GetComponentsInChildren<Renderer>())
-    //        TransparencyAnimator.Register(renderer.transform);
-
-    //    settings.Add(setting);
-    //}
+        foreach (var renderer in clone.GetComponentsInChildren<Renderer>())
+            TransparencyAnimator.Register(renderer.transform);
+    }
 
     //static Transform resolutionTemplate = null;
     //public void AddDropdown(ConfigEntry<int> intSetting, string label, string tooltip, OptionsListItem[] options)

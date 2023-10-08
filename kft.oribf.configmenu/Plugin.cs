@@ -1,7 +1,6 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
-using HarmonyLib;
 using kft.oribf.uilib;
 
 namespace kft.oribf.configmenu;
@@ -10,7 +9,8 @@ namespace kft.oribf.configmenu;
 [BepInDependency(kft.oribf.uilib.PluginInfo.PLUGIN_GUID)]
 public class Plugin : BaseUnityPlugin
 {
-    private ConfigEntry<bool> config;
+    internal static ConfigEntry<bool> config;
+    internal static ConfigEntry<float> configFloat;
 
     internal static new ManualLogSource Logger;
 
@@ -19,14 +19,12 @@ public class Plugin : BaseUnityPlugin
         Logger = base.Logger;
 
         config = Config.Bind("Test Section", "Test Key", true, "The description");
+        configFloat = Config.Bind("Test Section", "Test Float", 0.5f, "The description for the float");
 
         Logger.LogInfo(config.Value);
         config.SettingChanged += Config_SettingChanged;
 
         CustomMenuManager.RegisterOptionsScreen<MyOptionsScreen>("Name", 0);
-
-        new Harmony(PluginInfo.PLUGIN_GUID).PatchAll();
-
     }
 
     private void Config_SettingChanged(object sender, System.EventArgs e)
@@ -34,4 +32,3 @@ public class Plugin : BaseUnityPlugin
         Logger.LogInfo($"Changed to {config.Value}");
     }
 }
-
