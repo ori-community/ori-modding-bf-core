@@ -3,9 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net35</TargetFramework>
     <AssemblyName>com.kft.oribf.uilib</AssemblyName>
-    <Description>My first plugin</Description>
+    <Description>UI extensions</Description>
     <Version>1.0.0</Version>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
