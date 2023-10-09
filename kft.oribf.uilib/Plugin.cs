@@ -18,5 +18,6 @@ public class Plugin : BaseUnityPlugin
         Logger.LogInfo($"Plugin {PluginInfo.PLUGIN_GUID} is loaded!");
 
         new Harmony(PluginInfo.PLUGIN_GUID).PatchAll();
+        TitleScreenModMenu.Init();
     }
 }
