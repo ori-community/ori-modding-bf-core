@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace kft.oribf.uilib;
 
-public class HintsPlus
+public static class HintsPlus
 {
     public static Vector3 nextHintLocation = OnScreenPositions.TopCenter;
 

@@ -3,7 +3,7 @@ using kft.oribf.core;
 using System;
 using UnityEngine;
 
-namespace kft.oribf.uilib;
+namespace kft.oribf.uilib.Menu;
 
 public abstract class CustomOptionsScreen : MonoBehaviour
 {

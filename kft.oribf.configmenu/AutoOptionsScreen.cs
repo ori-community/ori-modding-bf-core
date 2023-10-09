@@ -1,4 +1,4 @@
-﻿using kft.oribf.uilib;
+﻿using kft.oribf.uilib.Menu;
 
 namespace kft.oribf.configmenu;
 

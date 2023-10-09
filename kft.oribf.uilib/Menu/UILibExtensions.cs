@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace kft.oribf.uilib;
+namespace kft.oribf.uilib.Menu;
 
 public static class UILibExtensions
 {
@@ -25,7 +25,7 @@ public static class UILibExtensions
 
     public static void AddMenuItem(this CleverMenuItemSelectionManager selectionManager, string label, int index, CleverMenuItemLayout layout, Action onPress)
     {
-        CleverMenuItem cleverMenuItem = UnityEngine.Object.Instantiate<CleverMenuItem>(selectionManager.MenuItems[0]);
+        CleverMenuItem cleverMenuItem = UnityEngine.Object.Instantiate(selectionManager.MenuItems[0]);
         cleverMenuItem.gameObject.name = label;
         cleverMenuItem.transform.SetParentMaintainingRotationAndScale(selectionManager.MenuItems[1].transform.parent);
         cleverMenuItem.Pressed = null;

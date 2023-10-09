@@ -2,13 +2,13 @@
 using Core;
 using UnityEngine;
 
-namespace kft.oribf.uilib;
+namespace kft.oribf.uilib.Menu;
 
 public class ToggleCustomSettingsAction : MonoBehaviour
 {
     public void Awake()
     {
-        ToggleSettingsAction componentInChildren = base.GetComponentInChildren<ToggleSettingsAction>();
+        ToggleSettingsAction componentInChildren = GetComponentInChildren<ToggleSettingsAction>();
         OnSound = componentInChildren.OnSound;
         OffSound = componentInChildren.OffSound;
         Destroy(componentInChildren);
@@ -18,12 +18,12 @@ public class ToggleCustomSettingsAction : MonoBehaviour
     {
         if (on && OnSound)
         {
-            Sound.Play(OnSound.GetSound(null), base.transform.position, null);
+            Sound.Play(OnSound.GetSound(null), transform.position, null);
             return;
         }
         if (OffSound && !on)
         {
-            Sound.Play(OffSound.GetSound(null), base.transform.position, null);
+            Sound.Play(OffSound.GetSound(null), transform.position, null);
         }
     }
 
@@ -42,7 +42,7 @@ public class ToggleCustomSettingsAction : MonoBehaviour
 
     public void Init()
     {
-        MessageBox = base.transform.FindChild("text/stateText").GetComponent<MessageBox>();
+        MessageBox = transform.FindChild("text/stateText").GetComponent<MessageBox>();
         SetSetting(Setting.Value);
     }
 

@@ -3,7 +3,7 @@ using HarmonyLib;
 using System;
 using UnityEngine;
 
-namespace kft.oribf.uilib;
+namespace kft.oribf.uilib.Menu;
 
 public class CustomSlider : MonoBehaviour
 {

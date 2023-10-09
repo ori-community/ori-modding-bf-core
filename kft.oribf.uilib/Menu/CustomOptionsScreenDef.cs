@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace kft.oribf.uilib;
+namespace kft.oribf.uilib.Menu;
 
 internal class CustomOptionsScreenDef
 {

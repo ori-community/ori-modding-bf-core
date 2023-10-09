@@ -1,7 +1,7 @@
 ﻿using BepInEx;
 using BepInEx.Bootstrap;
 using BepInEx.Configuration;
-using kft.oribf.uilib;
+using kft.oribf.uilib.Menu;
 using System.Collections.Generic;
 
 namespace kft.oribf.configmenu;

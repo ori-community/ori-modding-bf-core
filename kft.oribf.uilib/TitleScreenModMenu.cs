@@ -1,5 +1,6 @@
 ﻿using BepInEx.Bootstrap;
 using kft.oribf.core;
+using kft.oribf.uilib.Menu;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +8,9 @@ using UnityEngine;
 
 namespace kft.oribf.uilib;
 
-public class TitleScreenModMenu
+internal class TitleScreenModMenu
 {
-    public static void Init()
+    internal static void Init()
     {
         SceneBootstrap.RegisterHandler(Bootstrap);
     }

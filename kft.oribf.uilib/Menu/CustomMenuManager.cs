@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace kft.oribf.uilib;
+namespace kft.oribf.uilib.Menu;
 
 public class CustomMenuManager
 {
@@ -46,7 +46,7 @@ internal class CustomMenuCreator
     private static CustomOptionsScreen AddSubscreen(OptionsScreen optionsScreen, Type controllerType, string label, int index)
     {
         optionsScreen.Navigation.AddMenuItem(label, index, optionsScreen.Navigation.transform.FindChild("mainMenuUI").GetComponent<CleverMenuItemLayout>(), null);
-        GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(optionsScreen.transform.FindChild("*settings").gameObject);
+        GameObject gameObject = UnityEngine.Object.Instantiate(optionsScreen.transform.FindChild("*settings").gameObject);
         gameObject.name = "*" + label.ToLower();
         gameObject.transform.SetParent(optionsScreen.transform);
         UnityEngine.Object.Destroy(gameObject.GetComponent<SettingsScreen>());
