@@ -22,6 +22,7 @@ public class SceneBootstrap : MonoBehaviour
     {
         if (!loadedScenes.Contains(sceneRoot.name) && BootstrapActions.ContainsKey(sceneRoot.name))
         {
+            Plugin.Logger.LogDebug("Bootstrapping scene " + sceneRoot.name);
             BootstrapActions[sceneRoot.name].Invoke(sceneRoot);
             loadedScenes.Add(sceneRoot.name);
         }

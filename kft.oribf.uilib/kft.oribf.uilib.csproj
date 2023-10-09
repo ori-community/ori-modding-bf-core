@@ -3,7 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net35</TargetFramework>
     <AssemblyName>com.kft.oribf.uilib</AssemblyName>
-    <Description>UI extensions</Description>
+    <Description>UI Extensions</Description>
+    <Product>UI Extensions</Product>
     <Version>1.0.0</Version>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>

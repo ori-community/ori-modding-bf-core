@@ -3,7 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net35</TargetFramework>
     <AssemblyName>com.kft.oribf.configmenu</AssemblyName>
-    <Description>Adds a config menu for all mods automatically</Description>
+    <Description>Config Menu</Description>
+    <Product>Config Menu</Product>
     <Version>1.0.0</Version>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>

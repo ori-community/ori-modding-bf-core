@@ -3,7 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net35</TargetFramework>
     <AssemblyName>com.kft.oribf.qol</AssemblyName>
-    <Description>QOL features</Description>
+    <Description>QoL Mod</Description>
+    <Product>QoL Mod</Product>
     <Version>1.0.0</Version>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
