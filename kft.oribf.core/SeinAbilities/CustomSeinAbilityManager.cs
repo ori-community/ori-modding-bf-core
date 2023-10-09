@@ -50,10 +50,10 @@ public static class CustomSeinAbilityManager
 }
 
 [HarmonyPatch]
-static class AddCustomSeinAbilityPatch
+internal static class AddCustomSeinAbilityPatch
 {
     [HarmonyPrefix, HarmonyPatch(typeof(SeinCharacter), nameof(SeinCharacter.Awake))]
-    static void AddCustomAbilities(SeinCharacter __instance)
+    private static void AddCustomAbilities(SeinCharacter __instance)
     {
         CustomSeinAbilityManager.Reset(__instance);
     }
