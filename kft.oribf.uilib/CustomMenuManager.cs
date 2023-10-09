@@ -13,13 +13,14 @@ public class CustomMenuManager
     /// <summary>
     /// Register a screen to appear in the Options sub-menu
     /// </summary>
-    public static void RegisterOptionsScreen<TController>(string name, int index) where TController : MonoBehaviour
+    public static void RegisterOptionsScreen<TController>(string name, int index, Action<CustomOptionsScreen> onCreated = null) where TController : CustomOptionsScreen
     {
         optionsScreens.Add(new CustomOptionsScreenDef
         {
             ControllerType = typeof(TController),
             Index = index,
-            Name = name
+            Name = name,
+            OnCreated = onCreated
         });
     }
 
@@ -36,18 +37,22 @@ internal class CustomMenuCreator
     {
         var screens = CustomMenuManager.GetOptionsScreens().ToArray();
         for (int i = 0; i < screens.Length; i++)
-            AddSubscreen(__instance, screens[i].ControllerType, screens[i].Name.ToUpper(), i + 2);
+        {
+            var newScreen = AddSubscreen(__instance, screens[i].ControllerType, screens[i].Name.ToUpper(), i + 2);
+            screens[i].OnCreated?.Invoke(newScreen);
+        }
     }
 
-    private static void AddSubscreen(OptionsScreen optionsScreen, Type controllerType, string label, int index)
+    private static CustomOptionsScreen AddSubscreen(OptionsScreen optionsScreen, Type controllerType, string label, int index)
     {
         optionsScreen.Navigation.AddMenuItem(label, index, optionsScreen.Navigation.transform.FindChild("mainMenuUI").GetComponent<CleverMenuItemLayout>(), null);
         GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(optionsScreen.transform.FindChild("*settings").gameObject);
         gameObject.name = "*" + label.ToLower();
         gameObject.transform.SetParent(optionsScreen.transform);
         UnityEngine.Object.Destroy(gameObject.GetComponent<SettingsScreen>());
-        gameObject.AddComponent(controllerType);
+        var screen = gameObject.AddComponent(controllerType);
         gameObject.SetActive(false);
         optionsScreen.GetComponent<CleverMenuItemGroup>().AddItem(optionsScreen.Navigation.MenuItems[index], gameObject.GetComponent<CleverMenuItemGroupBase>());
+        return screen as CustomOptionsScreen;
     }
 }

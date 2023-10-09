@@ -1,7 +1,8 @@
 ﻿using BepInEx;
+using BepInEx.Bootstrap;
 using BepInEx.Configuration;
-using BepInEx.Logging;
 using kft.oribf.uilib;
+using System.Collections.Generic;
 
 namespace kft.oribf.configmenu;
 
@@ -9,26 +10,37 @@ namespace kft.oribf.configmenu;
 [BepInDependency(kft.oribf.uilib.PluginInfo.PLUGIN_GUID)]
 public class Plugin : BaseUnityPlugin
 {
-    internal static ConfigEntry<bool> config;
-    internal static ConfigEntry<float> configFloat;
-
-    internal static new ManualLogSource Logger;
-
-    private void Awake()
+    private void Start()
     {
-        Logger = base.Logger;
+        Logger.LogInfo("Initialising config screens");
 
-        config = Config.Bind("Test Section", "Test Key", true, "The description");
-        configFloat = Config.Bind("Test Section", "Test Float", 0.5f, "The description for the float");
+        Dictionary<string, List<ConfigEntryBase>> allConfigs = new();
 
-        Logger.LogInfo(config.Value);
-        config.SettingChanged += Config_SettingChanged;
+        var plugins = Chainloader.PluginInfos;
+        foreach (var plugin in plugins.Values)
+        {
+            foreach (var config in plugin.Instance.Config)
+            {
+                if (!allConfigs.ContainsKey(config.Key.Section))
+                    allConfigs.Add(config.Key.Section, new List<ConfigEntryBase>());
+                allConfigs[config.Key.Section].Add(config.Value);
+            }
+        }
 
-        CustomMenuManager.RegisterOptionsScreen<MyOptionsScreen>("Name", 0);
-    }
+        foreach (var kvp in allConfigs)
+        {
+            CustomMenuManager.RegisterOptionsScreen<AutoOptionsScreen>(kvp.Key, 5, screen =>
+            {
+                Logger.LogDebug($"Setting up config screen \"{kvp.Key}\"");
 
-    private void Config_SettingChanged(object sender, System.EventArgs e)
-    {
-        Logger.LogInfo($"Changed to {config.Value}");
+                foreach (var config in kvp.Value)
+                {
+                    if (config.SettingType == typeof(bool))
+                        screen.AddToggle(config as ConfigEntry<bool>, config.Definition.Key, config.Description.Description);
+                    else if (config.SettingType == typeof(float))
+                        screen.AddSlider(config as ConfigEntry<float>, config.Definition.Key, 0f, 1f, 0.1f, config.Description.Description);
+                }
+            });
+        }
     }
 }

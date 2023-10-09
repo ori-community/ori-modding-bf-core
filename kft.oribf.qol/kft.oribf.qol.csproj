@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net35</TargetFramework>
-    <AssemblyName>com.kft.oribf.configmenu</AssemblyName>
-    <Description>Adds a config menu for all mods automatically</Description>
+    <AssemblyName>com.kft.oribf.qol</AssemblyName>
+    <Description>QOL features</Description>
     <Version>1.0.0</Version>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
@@ -27,6 +27,5 @@
   
   <ItemGroup>
     <ProjectReference Include="..\kft.oribf.core\kft.oribf.core.csproj" />
-    <ProjectReference Include="..\kft.oribf.uilib\kft.oribf.uilib.csproj" />
   </ItemGroup>
 </Project>
