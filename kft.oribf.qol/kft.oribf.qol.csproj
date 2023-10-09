@@ -26,6 +26,7 @@
   </ItemGroup>
   
   <ItemGroup>
+    <ProjectReference Include="..\kft.oribf.configmenu\kft.oribf.configmenu.csproj" />
     <ProjectReference Include="..\kft.oribf.core\kft.oribf.core.csproj" />
   </ItemGroup>
 </Project>

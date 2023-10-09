@@ -1,10 +1,12 @@
 ﻿using BepInEx;
+using BepInEx.Bootstrap;
 using BepInEx.Configuration;
 
 namespace kft.oribf.qol;
 
 [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
 [BepInDependency(kft.oribf.core.PluginInfo.PLUGIN_GUID)]
+[BepInDependency(kft.oribf.configmenu.PluginInfo.PLUGIN_GUID, BepInDependency.DependencyFlags.SoftDependency)]
 public class Plugin : BaseUnityPlugin
 {
     public ConfigEntry<bool> CursorLock { get; set; }
@@ -29,5 +31,12 @@ public class Plugin : BaseUnityPlugin
         SkipText = Config.Bind("QOL", "Skip Text", false, "Whether the text boxes from Sein and pickups should be skipped");
         CameraSway = Config.Bind("QOL", "Camera Sway", true, "Whether the camera should subtly move when stationary");
         HudScale = Config.Bind("QOL", "HUD Scale", 1f, "How large the HUD should appear on screen (min 40%, max 160%)");
+
+        if (Chainloader.PluginInfos.TryGetValue(kft.oribf.configmenu.PluginInfo.PLUGIN_GUID, out var configMenuInfo))
+        {
+            var configMenu = configMenuInfo.Instance as configmenu.Plugin;
+
+            configMenu.ConfigureSlider(HudScale, 0.4f, 1.6f, 0.1f);
+        }
     }
 }

@@ -10,6 +10,8 @@ namespace kft.oribf.configmenu;
 [BepInDependency(kft.oribf.uilib.PluginInfo.PLUGIN_GUID)]
 public class Plugin : BaseUnityPlugin
 {
+    private readonly Dictionary<string, SliderProps> sliderProps = new();
+
     private void Start()
     {
         Logger.LogInfo("Initialising config screens");
@@ -38,9 +40,38 @@ public class Plugin : BaseUnityPlugin
                     if (config.SettingType == typeof(bool))
                         screen.AddToggle(config as ConfigEntry<bool>, config.Definition.Key, config.Description.Description);
                     else if (config.SettingType == typeof(float))
-                        screen.AddSlider(config as ConfigEntry<float>, config.Definition.Key, 0f, 1f, 0.1f, config.Description.Description);
+                    {
+                        var props = GetSliderProps(config);
+                        screen.AddSlider(config as ConfigEntry<float>, config.Definition.Key, props.Min, props.Max, props.Step, config.Description.Description);
+                    }
                 }
             });
         }
     }
+
+    public void ConfigureSlider(ConfigEntryBase config, float min, float max, float step)
+    {
+        sliderProps[$"{config.Definition.Section}.{config.Definition.Key}"] = new SliderProps
+        {
+            Min = min,
+            Max = max,
+            Step = step
+        };
+    }
+
+    private SliderProps GetSliderProps(ConfigEntryBase config)
+    {
+        if (sliderProps.TryGetValue($"{config.Definition.Section}.{config.Definition.Key}", out var props))
+            return props;
+        return new SliderProps();
+    }
+}
+
+internal struct SliderProps
+{
+    public float Min { get; set; } = 0f;
+    public float Max { get; set; } = 1f;
+    public float Step { get; set; } = 0.1f;
+
+    public SliderProps() { }
 }
