@@ -12,11 +12,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E6A9A502-3643-4AFF-934E-34D9E7AEEEC2}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		Directory.Build.targets = Directory.Build.targets
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "kft.oribf.qol", "kft.oribf.qol\kft.oribf.qol.csproj", "{C9461159-4CE3-4F55-84B9-A98F887FDEF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "kft.oribf.l10n", "kft.oribf.l10n\kft.oribf.l10n.csproj", "{8E44EABE-5383-4E8D-A8B9-82A63C5BC172}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "kft.oribf.l10n", "kft.oribf.l10n\kft.oribf.l10n.csproj", "{8E44EABE-5383-4E8D-A8B9-82A63C5BC172}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

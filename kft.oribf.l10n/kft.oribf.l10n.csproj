@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net35</TargetFramework>
@@ -24,10 +24,15 @@
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
       <HintPath>../kft.oribf.core/lib/Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   
   <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
   </ItemGroup>
+
+  <Target Name="Copy Assets and Dependencies" AfterTargets="Build" Condition=" '$(Configuration)' == 'Debug' and '$(OriNoCopy)' == '' and '$(OriPluginPath)' != '' ">
+    <Copy SourceFiles="$(OutDir)CSVFile.dll;strings.csv" DestinationFolder="$(OriPluginPath)\$(AssemblyName)" />
+  </Target>
 </Project>
