@@ -3,10 +3,12 @@
   <PropertyGroup>
     <TargetFramework>net35</TargetFramework>
     <AssemblyName>OriModding.BF.l10n</AssemblyName>
-    <Description>Localisation</Description>
+    <Description>Localisation support for OriModding.BF</Description>
     <Product>Localisation</Product>
     <Version>1.0.0</Version>
     <LangVersion>latest</LangVersion>
+    <Authors>Kirefel</Authors>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -35,4 +37,8 @@
   <Target Name="Copy Assets and Dependencies" AfterTargets="Build" Condition=" '$(Configuration)' == 'Debug' and '$(OriNoCopy)' == '' and '$(OriPluginPath)' != '' ">
     <Copy SourceFiles="$(OutDir)CSVFile.dll;strings.csv" DestinationFolder="$(OriPluginPath)\$(AssemblyName)" />
   </Target>
+
+  <ItemGroup>
+    <Content Include="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 </Project>

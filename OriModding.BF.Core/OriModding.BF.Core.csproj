@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net35</TargetFramework>
     <AssemblyName>OriModding.BF.Core</AssemblyName>
-    <Description>Ori DE Modding Library</Description>
+    <Description>Ori and the Blind Forest Definitive Edition Modding Library</Description>
     <Product>Core Mod</Product>
     <Version>1.0.0</Version>
     <LangVersion>latest</LangVersion>
