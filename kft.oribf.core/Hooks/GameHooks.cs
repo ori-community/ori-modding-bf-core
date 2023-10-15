@@ -1,19 +1,17 @@
-﻿using HarmonyLib;
-using System;
+﻿using System;
 
 namespace kft.oribf.core.Hooks;
 
 public class GameHooks
 {
     public Action OnStartNewGame;
-}
 
-
-[HarmonyPatch(typeof(GameController), nameof(GameController.SetupGameplay))]
-internal class Hook_OnStartNewGame
-{
-    private static void Postfix()
+    internal void SetupHooks()
     {
-        Hooks.Game.OnStartNewGame?.Invoke();
+        On.GameController.SetupGameplay += (orig, self, sceneRoot, worldEventsOnAwake) =>
+        {
+            orig(self, sceneRoot, worldEventsOnAwake);
+            OnStartNewGame?.Invoke();
+        };
     }
 }

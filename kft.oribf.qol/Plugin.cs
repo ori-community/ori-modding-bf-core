@@ -49,6 +49,15 @@ public class Plugin : BaseUnityPlugin
 
         Cursor.lockState = CursorLock.Value ? CursorLockMode.Confined : CursorLockMode.None;
         CursorLock.SettingChanged += (_, _) => Cursor.lockState = CursorLock.Value ? CursorLockMode.Confined : CursorLockMode.None;
+
+
+
+        PauseMenuQTMEverything.Init();
+        On.AreaMapNavigation.Awake += (orig, self) =>
+        {
+            orig(self);
+            self.AreaMapZoomLevel = 1;
+        };
     }
 
     private void OnDestroy()
