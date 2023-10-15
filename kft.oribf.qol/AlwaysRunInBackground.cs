@@ -1,6 +1,6 @@
 ﻿using HarmonyLib;
 
-namespace kft.oribf.qol;
+namespace KFT.OriBF.Qol;
 
 [HarmonyPatch(typeof(GameController), "OnApplicationFocus")]
 internal class AlwaysRunInBackground

@@ -1,4 +1,4 @@
-﻿namespace kft.oribf.qol;
+﻿namespace KFT.OriBF.Qol;
 
 internal static class PauseMenuQTMEverything
 {

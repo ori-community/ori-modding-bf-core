@@ -1,8 +1,8 @@
 ﻿using HarmonyLib;
-using kft.oribf.core;
+using OriModding.BF.Core;
 using UnityEngine;
 
-namespace kft.oribf.qol;
+namespace KFT.OriBF.Qol;
 
 [HarmonyPatch(typeof(MessageControllerB), nameof(MessageControllerB.ShowMessageBox))]
 public class SeinSpeech

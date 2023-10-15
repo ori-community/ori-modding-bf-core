@@ -2,7 +2,7 @@
 using HarmonyLib;
 using UnityEngine;
 
-namespace kft.oribf.qol;
+namespace KFT.OriBF.Qol;
 
 [HarmonyPatch(typeof(SkillTreeManager), nameof(SkillTreeManager.Awake))]
 internal class AbilityMenuOpacity

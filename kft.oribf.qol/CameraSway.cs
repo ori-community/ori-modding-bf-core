@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using UnityEngine;
 
-namespace kft.oribf.qol;
+namespace KFT.OriBF.Qol;
 
 [HarmonyPatch(typeof(AreaMapNavigation), nameof(AreaMapNavigation.UpdatePlane))]
 internal class AreaMapCameraSwayPatch

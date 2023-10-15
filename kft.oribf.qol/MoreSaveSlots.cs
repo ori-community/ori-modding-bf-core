@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection.Emit;
 
-namespace kft.oribf.qol;
+namespace KFT.OriBF.Qol;
 
 internal static class MoreSaveSlots
 {

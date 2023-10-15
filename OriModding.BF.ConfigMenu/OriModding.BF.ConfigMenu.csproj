@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>net35</TargetFramework>
-    <AssemblyName>KFT.OriBF.Qol</AssemblyName>
-    <Description>QoL Mod</Description>
-    <Product>QoL Mod</Product>
+    <AssemblyName>OriModding.BF.ConfigMenu</AssemblyName>
+    <Description>Config Menu</Description>
+    <Product>Config Menu</Product>
     <Version>1.0.0</Version>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
@@ -21,10 +21,6 @@
       <HintPath>../OriModding.BF.Core/lib/Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="MMHOOK_Assembly-CSharp">
-      <HintPath>../OriModding.BF.Core/lib/MMHOOK_Assembly-CSharp.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
   </ItemGroup>
   
   <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
@@ -32,7 +28,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\OriModding.BF.configmenu\OriModding.BF.ConfigMenu.csproj" />
     <ProjectReference Include="..\OriModding.BF.Core\OriModding.BF.Core.csproj" />
+    <ProjectReference Include="..\OriModding.BF.UiLib\OriModding.BF.UiLib.csproj" />
   </ItemGroup>
 </Project>

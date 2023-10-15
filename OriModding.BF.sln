@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E6A9A502-3643-4AFF-934E-34D9E7AEEEC2}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		Directory.Build.targets = Directory.Build.targets
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OriModding.BF.Core", "OriModding.BF.Core\OriModding.BF.Core.csproj", "{D0A20DBB-FF26-4A61-B88B-640CBF4DCDA1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OriModding.BF.UiLib", "OriModding.BF.UiLib\OriModding.BF.UiLib.csproj", "{0ACD3C3A-0067-4FB3-BFC1-807FA25390D6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OriModding.BF.ConfigMenu", "OriModding.BF.ConfigMenu\OriModding.BF.ConfigMenu.csproj", "{6315DC70-8E88-445D-A471-54A07BC9F296}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OriModding.BF.l10n", "OriModding.BF.l10n\OriModding.BF.l10n.csproj", "{8E44EABE-5383-4E8D-A8B9-82A63C5BC172}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KFT.OriBF.Qol", "KFT.OriBF.qol\KFT.OriBF.Qol.csproj", "{C9461159-4CE3-4F55-84B9-A98F887FDEF7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D0A20DBB-FF26-4A61-B88B-640CBF4DCDA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0A20DBB-FF26-4A61-B88B-640CBF4DCDA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0A20DBB-FF26-4A61-B88B-640CBF4DCDA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0A20DBB-FF26-4A61-B88B-640CBF4DCDA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0ACD3C3A-0067-4FB3-BFC1-807FA25390D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0ACD3C3A-0067-4FB3-BFC1-807FA25390D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0ACD3C3A-0067-4FB3-BFC1-807FA25390D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0ACD3C3A-0067-4FB3-BFC1-807FA25390D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6315DC70-8E88-445D-A471-54A07BC9F296}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6315DC70-8E88-445D-A471-54A07BC9F296}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6315DC70-8E88-445D-A471-54A07BC9F296}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6315DC70-8E88-445D-A471-54A07BC9F296}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E44EABE-5383-4E8D-A8B9-82A63C5BC172}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E44EABE-5383-4E8D-A8B9-82A63C5BC172}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E44EABE-5383-4E8D-A8B9-82A63C5BC172}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E44EABE-5383-4E8D-A8B9-82A63C5BC172}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9461159-4CE3-4F55-84B9-A98F887FDEF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9461159-4CE3-4F55-84B9-A98F887FDEF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9461159-4CE3-4F55-84B9-A98F887FDEF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9461159-4CE3-4F55-84B9-A98F887FDEF7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {01194ED6-DD0D-467D-A62C-F93577C315DA}
+	EndGlobalSection
+EndGlobal

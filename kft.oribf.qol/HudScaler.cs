@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-namespace kft.oribf.qol;
+namespace KFT.OriBF.Qol;
 
 public class HudScaler : MonoBehaviour
 {

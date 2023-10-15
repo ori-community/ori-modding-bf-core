@@ -4,11 +4,11 @@ using BepInEx.Configuration;
 using HarmonyLib;
 using UnityEngine;
 
-namespace kft.oribf.qol;
+namespace KFT.OriBF.Qol;
 
 [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
-[BepInDependency(kft.oribf.core.PluginInfo.PLUGIN_GUID)]
-[BepInDependency(kft.oribf.configmenu.PluginInfo.PLUGIN_GUID, BepInDependency.DependencyFlags.SoftDependency)]
+[BepInDependency(OriModding.BF.Core.PluginInfo.PLUGIN_GUID)]
+[BepInDependency(OriModding.BF.ConfigMenu.PluginInfo.PLUGIN_GUID, BepInDependency.DependencyFlags.SoftDependency)]
 public class Plugin : BaseUnityPlugin
 {
     public static ConfigEntry<bool> CursorLock { get; set; }
@@ -41,7 +41,7 @@ public class Plugin : BaseUnityPlugin
         CameraSway = Config.Bind("QOL", "Camera Sway", true, "Whether the camera should subtly move when stationary");
         HudScale = Config.Bind("QOL", "HUD Scale", 1f, "How large the HUD should appear on screen (min 40%, max 160%)");
 
-        if (Chainloader.PluginInfos.TryGetValue(kft.oribf.configmenu.PluginInfo.PLUGIN_GUID, out var pi) && pi.Instance is configmenu.Plugin configMenu)
+        if (Chainloader.PluginInfos.TryGetValue(OriModding.BF.ConfigMenu.PluginInfo.PLUGIN_GUID, out var pi) && pi.Instance is OriModding.BF.ConfigMenu.Plugin configMenu)
         {
             configMenu.ConfigureSlider(HudScale, 0.4f, 1.6f, 0.1f);
         }
