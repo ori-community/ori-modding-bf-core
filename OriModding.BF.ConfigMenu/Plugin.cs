@@ -3,6 +3,7 @@ using BepInEx.Bootstrap;
 using BepInEx.Configuration;
 using OriModding.BF.UiLib.Menu;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OriModding.BF.ConfigMenu;
 
@@ -12,6 +13,7 @@ namespace OriModding.BF.ConfigMenu;
 public class Plugin : BaseUnityPlugin
 {
     private readonly Dictionary<string, SliderProps> sliderProps = new();
+    private readonly List<string> hiddenKeys = new();
 
     private void Start()
     {
@@ -24,6 +26,9 @@ public class Plugin : BaseUnityPlugin
         {
             foreach (var config in plugin.Instance.Config)
             {
+                if (hiddenKeys.Contains(config.Value.ConfigKey()))
+                    continue;
+
                 if (!allConfigs.ContainsKey(config.Key.Section))
                     allConfigs.Add(config.Key.Section, new List<ConfigEntryBase>());
                 allConfigs[config.Key.Section].Add(config.Value);
@@ -50,9 +55,14 @@ public class Plugin : BaseUnityPlugin
         }
     }
 
+    public void Hide(params ConfigEntryBase[] configs)
+    {
+        hiddenKeys.AddRange(configs.Select(x => x.ConfigKey()));
+    }
+
     public void ConfigureSlider(ConfigEntryBase config, float min, float max, float step)
     {
-        sliderProps[$"{config.Definition.Section}.{config.Definition.Key}"] = new SliderProps
+        sliderProps[config.ConfigKey()] = new SliderProps
         {
             Min = min,
             Max = max,
@@ -75,4 +85,10 @@ internal struct SliderProps
     public float Step { get; set; } = 0.1f;
 
     public SliderProps() { }
+}
+
+static class ConfigEntryExtensions
+{
+    internal static string ConfigKey(this ConfigEntryBase configEntry)
+        => $"{configEntry.Definition.Section}.{configEntry.Definition.Key}";
 }
