@@ -4,6 +4,8 @@
 
 Core dependency for all plugins.
 
+[Go here for usage instructions](./OriModding.BF.Core/README.md)
+
 ## OriModding.BF.UiLib
 
 UI additions.
