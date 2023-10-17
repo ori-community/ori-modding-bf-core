@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using BepInEx;
 
 namespace OriModding.BF.Core;
 
@@ -12,12 +13,12 @@ public static class HarmonyHelper
 
 public static class FilesystemHelpers
 {
-    public static string GetPluginDirectory(this Plugin plugin)
+    public static string GetPluginDirectory(this BaseUnityPlugin plugin)
     {
         return Path.GetDirectoryName(plugin.Info.Location);
     }
 
-    public static string GetAssetPath(this Plugin plugin, params string[] relativePath)
+    public static string GetAssetPath(this BaseUnityPlugin plugin, params string[] relativePath)
     {
         return Path.Combine(plugin.GetPluginDirectory(), CombinePath(relativePath));
     }

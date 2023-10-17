@@ -1,7 +1,0 @@
-<Project>
-    <Target Name="Copy File" AfterTargets="Build" Condition=" '$(Configuration)' == 'Debug' and '$(OriNoCopy)' == '' ">
-        <Copy SourceFiles="$(OutDir)$(AssemblyName).dll" DestinationFolder="$(OriPluginPath)\$(AssemblyName)" Condition=" '$(OriPluginPath)' != '' " />
-        <Message Text=" -> $(OriPluginPath)\$(AssemblyName)\$(AssemblyName).dll" Importance="high" Condition=" '$(OriPluginPath)' != '' " />
-        <Warning Text="Set the $OriPluginPath environment variable to automatically copy files, or set $OriNoCopy to silence" Condition=" '$(OriPluginPath)' == '' " />
-    </Target>
-</Project>
