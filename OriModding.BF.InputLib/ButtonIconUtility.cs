@@ -1,9 +1,23 @@
-﻿using UnityEngine;
+﻿using SmartInput;
+using UnityEngine;
 
 namespace OriModding.BF.InputLib;
 
-public static class ButtonIconUtility
+internal static class ButtonIconUtility
 {
+    public static string ToFriendlyString(this IButtonInput button)
+    {
+        if (button is KeyCodeButtonInput kcbi)
+            return kcbi.KeyCode.KeyCodeToButtonIcon();
+        else if (button is ControllerButtonInput controllerBI)
+            return controllerBI.ToControllerButton().ButtonToIcon();
+        else if (button is AxisButtonInput axisInput)
+            return axisInput.ToControllerButton().ButtonToIcon();
+        else if (button is ChordedButtonInput cbi)
+            return cbi.ToFriendlyString();
+        return null;
+    }
+
     public static string KeyCodeToButtonIcon(this KeyCode keyCode)
     {
         switch (keyCode)
@@ -44,37 +58,39 @@ public static class ButtonIconUtility
         }
     }
 
-    //public static string ButtonToIcon(this ControllerRebinds.ControllerButton button)
-    //{
-    //    switch (button)
-    //    {
-    //        case ControllerRebinds.ControllerButton.A: return "<icon>e</>";
-    //        case ControllerRebinds.ControllerButton.B: return "<icon>f</>";
-    //        case ControllerRebinds.ControllerButton.X: return "<icon>h</>";
-    //        case ControllerRebinds.ControllerButton.Y: return "<icon>i</>";
-    //        case ControllerRebinds.ControllerButton.LT: return "<icon>m</>";
-    //        case ControllerRebinds.ControllerButton.RT: return "<icon>k</>";
-    //        case ControllerRebinds.ControllerButton.LB: return "<icon>R</>";
-    //        case ControllerRebinds.ControllerButton.RB: return "<icon>S</>";
-    //        case ControllerRebinds.ControllerButton.LS: return "<icon>J</>";
-    //        case ControllerRebinds.ControllerButton.Back: return "<icon>l</>";
-    //        case ControllerRebinds.ControllerButton.Start: return "<icon>g</>";
 
-    //        case ControllerRebinds.ControllerButton.DLeft: return "DPad <icon>c</>";
-    //        case ControllerRebinds.ControllerButton.DRight: return "DPad <icon>d</>";
-    //        case ControllerRebinds.ControllerButton.DUp: return "DPad <icon>a</>";
-    //        case ControllerRebinds.ControllerButton.DDown: return "DPad <icon>b</>";
+    public static string ButtonToIcon(this ControllerButton button)
+    {
+        switch (button)
+        {
+            case ControllerButton.FaceA: return "<icon>e</>";
+            case ControllerButton.FaceB: return "<icon>f</>";
+            case ControllerButton.FaceX: return "<icon>h</>";
+            case ControllerButton.FaceY: return "<icon>i</>";
+            case ControllerButton.LT: return "<icon>m</>";
+            case ControllerButton.RT: return "<icon>k</>";
+            case ControllerButton.LB: return "<icon>R</>";
+            case ControllerButton.RB: return "<icon>S</>";
+            case ControllerButton.LS: return "<icon>J</>";
+            case ControllerButton.Back: return "<icon>l</>";
+            case ControllerButton.Start: return "<icon>g</>";
 
-    //        case ControllerRebinds.ControllerButton.LLeft: return "LS <icon>c</>";
-    //        case ControllerRebinds.ControllerButton.LRight: return "LS <icon>d</>";
-    //        case ControllerRebinds.ControllerButton.LUp: return "LS <icon>a</>";
-    //        case ControllerRebinds.ControllerButton.LDown: return "LS <icon>b</>";
+            case ControllerButton.DLeft: return "DPad <icon>c</>";
+            case ControllerButton.DRight: return "DPad <icon>d</>";
+            case ControllerButton.DUp: return "DPad <icon>a</>";
+            case ControllerButton.DDown: return "DPad <icon>b</>";
 
-    //        case ControllerRebinds.ControllerButton.RLeft: return "RS <icon>c</>";
-    //        case ControllerRebinds.ControllerButton.RRight: return "RS <icon>d</>";
-    //        case ControllerRebinds.ControllerButton.RUp: return "RS <icon>a</>";
-    //        case ControllerRebinds.ControllerButton.RDown: return "RS <icon>b</>";
-    //        default: return button.ToString();
-    //    }
-    //}
+            case ControllerButton.LLeft: return "LS <icon>c</>";
+            case ControllerButton.LRight: return "LS <icon>d</>";
+            case ControllerButton.LUp: return "LS <icon>a</>";
+            case ControllerButton.LDown: return "LS <icon>b</>";
+
+            case ControllerButton.RLeft: return "RS <icon>c</>";
+            case ControllerButton.RRight: return "RS <icon>d</>";
+            case ControllerButton.RUp: return "RS <icon>a</>";
+            case ControllerButton.RDown: return "RS <icon>b</>";
+            default: return button.ToString();
+        }
+    }
 }
+

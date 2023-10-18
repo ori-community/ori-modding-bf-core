@@ -1,5 +1,7 @@
 ﻿using SmartInput;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using UnityEngine;
 
@@ -81,14 +83,7 @@ public class CustomInput
 
     internal void LoadFromString(string str)
     {
-        string[] parts = str.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-        foreach (var part in parts)
-        {
-            if (part.Contains("+"))
-                input.Add(ChordedButtonInput.FromString(part));
-            else if (TryGetEnum<KeyCode>(part, out var keyCode))
-                AddKeyCodes(keyCode);
-        }
+        input.Buttons = ParseButtons(str);
     }
 
     private static bool TryGetEnum<TEnum>(string value, out TEnum result) where TEnum : Enum
@@ -98,7 +93,7 @@ public class CustomInput
         return defined;
     }
 
-    public string ToFriendlyString()
+    internal string ToFriendlyString()
     {
         if (input.Buttons == null)
             return null;
@@ -106,12 +101,48 @@ public class CustomInput
         var sb = new StringBuilder();
         foreach (var button in input.Buttons)
         {
-            if (button is KeyCodeButtonInput kcbi)
-                sb.Append(kcbi.KeyCode.KeyCodeToButtonIcon());
-            else if (button is ChordedButtonInput cbi)
-                sb.Append(cbi.ToFriendlyString());
+            sb.Append(button.ToFriendlyString());
             sb.Append(", ");
         }
         return sb.ToString().TrimEnd(',', ' ');
+    }
+
+    internal static IButtonInput[] ParseButtons(string input, char delimiter = ',')
+    {
+        List<IButtonInput> buttons = new List<IButtonInput>();
+
+        string[] parts = input.Split(new[] { delimiter }, StringSplitOptions.RemoveEmptyEntries);
+        foreach (var part in parts)
+        {
+            if (part.Contains("+"))
+            {
+                buttons.Add(new ChordedButtonInput()
+                {
+                    Buttons = ParseButtons(part, '+').ToArray()
+                });
+                continue;
+            }
+
+            if (TryGetEnum<ControllerButton>(part, out var button))
+                buttons.Add(button.ToButtonInput());
+            else if (TryGetEnum<KeyCode>(part, out var keyCode))
+                buttons.Add(new KeyCodeButtonInput(keyCode));
+        }
+
+        return buttons.ToArray();
+    }
+
+    internal static string SerialiseButton(IButtonInput button)
+    {
+        if (button is KeyCodeButtonInput kcbi)
+            return kcbi.KeyCode.ToString();
+        if (button is ControllerButtonInput controllerBI)
+            return controllerBI.ToControllerButton().ToString();
+        if (button is AxisButtonInput axisInput)
+            return axisInput.ToControllerButton().ToString();
+        if (button is ChordedButtonInput cbi)
+            return cbi.Serialise();
+
+        return null;
     }
 }

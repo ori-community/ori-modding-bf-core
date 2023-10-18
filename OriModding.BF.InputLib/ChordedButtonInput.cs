@@ -30,8 +30,7 @@ public class ChordedButtonInput : IButtonInput
         var sb = new StringBuilder();
         foreach (var button in Buttons)
         {
-            if (button is KeyCodeButtonInput kcbi)
-                sb.Append(kcbi.KeyCode.KeyCodeToButtonIcon());
+            sb.Append(button.ToFriendlyString());
             sb.Append("+");
         }
         return sb.ToString().TrimEnd('+');
@@ -45,32 +44,10 @@ public class ChordedButtonInput : IButtonInput
         var sb = new StringBuilder();
         foreach (var button in Buttons)
         {
-            if (button is KeyCodeButtonInput kcbi)
-                sb.Append(kcbi.KeyCode);
+            sb.Append(CustomInput.SerialiseButton(button));
             sb.Append("+");
         }
         return sb.ToString().TrimEnd('+');
-    }
-
-    internal static ChordedButtonInput FromString(string str)
-    {
-        var input = new ChordedButtonInput();
-
-        if (string.IsNullOrEmpty(str))
-            return input;
-
-        input.LoadFromString(str);
-        return input;
-    }
-
-    internal void LoadFromString(string str)
-    {
-        string[] parts = str.Split(new[] { '+' }, StringSplitOptions.RemoveEmptyEntries);
-        foreach (var part in parts)
-        {
-            if (TryGetEnum<KeyCode>(part, out var keyCode))
-                AddKeyCodes(keyCode);
-        }
     }
 
     public void AddKeyCodes(params KeyCode[] keyCodes)
@@ -88,12 +65,5 @@ public class ChordedButtonInput : IButtonInput
         }
         Array.Resize(ref Buttons, Buttons.Length + 1);
         Buttons[Buttons.Length - 1] = button;
-    }
-
-    private static bool TryGetEnum<TEnum>(string value, out TEnum result) where TEnum : Enum
-    {
-        var defined = value != null && Enum.IsDefined(typeof(TEnum), value);
-        result = defined ? (TEnum)Enum.Parse(typeof(TEnum), value) : default;
-        return defined;
     }
 }
