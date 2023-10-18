@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using BepInEx;
+using BepInEx.Bootstrap;
 
 namespace OriModding.BF.Core;
 
@@ -30,4 +31,10 @@ public static class FilesystemHelpers
             path = Path.Combine(path, paths[i]);
         return path;
     }
+}
+
+public static class BepInExHelper
+{
+    public static bool IsPluginLoaded(string guid)
+        => Chainloader.PluginInfos.ContainsKey(guid);
 }

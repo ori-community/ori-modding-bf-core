@@ -1,0 +1,105 @@
+﻿using SmartInput;
+using System;
+using System.Text;
+using UnityEngine;
+
+namespace OriModding.BF.InputLib;
+
+public class CustomInput
+{
+    private readonly global::Core.Input.InputButtonProcessor processor = new();
+    internal readonly CompoundButtonInput input = new();
+
+    public bool Used
+    {
+        get => processor.Used;
+        set => processor.Used = value;
+    }
+
+    public bool OnPressed => processor.OnPressed;
+    public bool OnPressedNotUsed => processor.OnPressedNotUsed;
+    public bool OnReleased => processor.OnReleased;
+    public bool Pressed => processor.Pressed;
+    public bool Released => processor.Released;
+
+    public void Clear()
+    {
+        input.Clear();
+    }
+
+    public void Update()
+    {
+        processor.Update(input.GetButton());
+    }
+
+    public CustomInput AddKeyCodes(params KeyCode[] keyCodes)
+    {
+        for (int i = 0; i < keyCodes.Length; i++)
+            input.Add(new KeyCodeButtonInput(keyCodes[i]));
+        return this;
+    }
+
+    internal string Serialise()
+    {
+        if (input.Buttons == null)
+            return null;
+
+        var sb = new StringBuilder();
+        foreach (var button in input.Buttons)
+        {
+            if (button is KeyCodeButtonInput kcbi)
+            {
+                sb.Append(kcbi.KeyCode.ToString());
+                sb.Append(",");
+            }
+        }
+        return sb.ToString().TrimEnd(',');
+    }
+
+    internal static object FromString(string str)
+    {
+        var input = new CustomInput();
+
+        if (string.IsNullOrEmpty(str))
+            return input;
+
+        input.LoadFromString(str);
+        return input;
+    }
+
+    internal void LoadFromString(string str)
+    {
+        Plugin.Logger.LogInfo("Loading from string: " + str);
+
+        string[] parts = str.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+        foreach (var part in parts)
+        {
+            if (TryGetEnum<KeyCode>(part, out var keyCode))
+                AddKeyCodes(keyCode);
+        }
+    }
+
+    private static bool TryGetEnum<TEnum>(string value, out TEnum result) where TEnum : Enum
+    {
+        var defined = value != null && Enum.IsDefined(typeof(TEnum), value);
+        result = defined ? (TEnum)Enum.Parse(typeof(TEnum), value) : default;
+        return defined;
+    }
+
+    public string ToFriendlyString()
+    {
+        if (input.Buttons == null)
+            return null;
+
+        var sb = new StringBuilder();
+        foreach (var button in input.Buttons)
+        {
+            if (button is KeyCodeButtonInput kcbi)
+            {
+                sb.Append(kcbi.KeyCode.KeyCodeToButtonIcon());
+                sb.Append(", ");
+            }
+        }
+        return sb.ToString().TrimEnd(',', ' ');
+    }
+}

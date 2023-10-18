@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace OriModding.BF.UiLib.Menu;
 
-public abstract class CustomOptionsScreen : MonoBehaviour
+public class CustomOptionsScreen : MonoBehaviour
 {
     public CleverMenuItemLayout layout;
     public CleverMenuItemSelectionManager selectionManager;
@@ -46,7 +46,7 @@ public abstract class CustomOptionsScreen : MonoBehaviour
         selectionManager.SetCurrentItem(0);
     }
 
-    public abstract void InitScreen();
+    public virtual void InitScreen() { }
 
     private void AddToLayout(CleverMenuItem item)
     {
