@@ -50,8 +50,12 @@ public class CustomInput
             if (button is KeyCodeButtonInput kcbi)
             {
                 sb.Append(kcbi.KeyCode.ToString());
-                sb.Append(",");
             }
+            else if (button is ChordedButtonInput cbi)
+            {
+                sb.Append(cbi.Serialise());
+            }
+            sb.Append(",");
         }
         return sb.ToString().TrimEnd(',');
     }
@@ -74,7 +78,9 @@ public class CustomInput
         string[] parts = str.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
         foreach (var part in parts)
         {
-            if (TryGetEnum<KeyCode>(part, out var keyCode))
+            if (part.Contains("+"))
+                input.Add(ChordedButtonInput.FromString(part));
+            else if (TryGetEnum<KeyCode>(part, out var keyCode))
                 AddKeyCodes(keyCode);
         }
     }
@@ -95,10 +101,10 @@ public class CustomInput
         foreach (var button in input.Buttons)
         {
             if (button is KeyCodeButtonInput kcbi)
-            {
                 sb.Append(kcbi.KeyCode.KeyCodeToButtonIcon());
-                sb.Append(", ");
-            }
+            else if (button is ChordedButtonInput cbi)
+                sb.Append(cbi.ToFriendlyString());
+            sb.Append(", ");
         }
         return sb.ToString().TrimEnd(',', ' ');
     }

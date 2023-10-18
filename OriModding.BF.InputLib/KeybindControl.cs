@@ -39,7 +39,7 @@ public class KeybindControl : MonoBehaviour
     private int CurrentInputCount => newInput.input.Buttons?.Length ?? 0;
     private bool CurrentInputContains(KeyCode kc)
     {
-        if (newInput.input.Buttons == null) 
+        if (newInput.input.Buttons == null)
             return false;
 
         foreach (var button in newInput.input.Buttons)
@@ -48,6 +48,12 @@ public class KeybindControl : MonoBehaviour
                 return true;
         }
         return false;
+    }
+    private IButtonInput Top()
+    {
+        if (newInput.input.Buttons?.Length > 0)
+            return newInput.input.Buttons[newInput.input.Buttons.Length - 1];
+        return null;
     }
 
     public void Update()
@@ -78,13 +84,34 @@ public class KeybindControl : MonoBehaviour
         }
         else if (Input.anyKeyDown)
         {
-            foreach (object obj in Enum.GetValues(typeof(KeyCode)))
+            foreach (KeyCode keyCode in keyCodes)
             {
-                KeyCode keyCode = (KeyCode)obj;
-                if (Input.GetKeyDown(keyCode) && !CurrentInputContains(keyCode))
+                if (Input.GetKeyDown(keyCode))
                 {
-                    newInput.AddKeyCodes(keyCode);
-                    UpdateMessageBox();
+                    var top = Top();
+                    if (top is KeyCodeButtonInput kcbi && Input.GetKey(kcbi.KeyCode))
+                    {
+                        // Convert to chorded input
+                        newInput.input.Buttons[newInput.input.Buttons.Length - 1] = new ChordedButtonInput
+                        {
+                            Buttons = new[] { top, new KeyCodeButtonInput(keyCode) }
+                        };
+                        UpdateMessageBox();
+                        return;
+                    }
+                    else if (top is ChordedButtonInput cbi && cbi.Buttons.Length > 0 && cbi.Buttons[0].GetButton())
+                    {
+                        Array.Resize(ref cbi.Buttons, cbi.Buttons.Length + 1);
+                        cbi.Buttons[cbi.Buttons.Length - 1] = new KeyCodeButtonInput(keyCode);
+                        UpdateMessageBox();
+                        return;
+                    }
+
+                    if (!CurrentInputContains(keyCode))
+                    {
+                        newInput.AddKeyCodes(keyCode);
+                        UpdateMessageBox();
+                    }
                 }
             }
         }
@@ -114,8 +141,9 @@ public class KeybindControl : MonoBehaviour
     public void Init(ConfigEntry<CustomInput> input, CustomOptionsScreen owner)
     {
         this.owner = owner;
-
         inputConfig = input;
+
+        keyCodes = (KeyCode[])Enum.GetValues(typeof(KeyCode));
     }
 
 
@@ -127,5 +155,6 @@ public class KeybindControl : MonoBehaviour
 
     private CustomOptionsScreen owner;
     private ConfigEntry<CustomInput> inputConfig;
+    private KeyCode[] keyCodes;
     private BasicMessageProvider tooltipProvider;
 }
