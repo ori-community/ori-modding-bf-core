@@ -2,6 +2,7 @@
 using BepInEx.Bootstrap;
 using BepInEx.Configuration;
 using OriModding.BF.UiLib.Menu;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,6 +15,7 @@ public class Plugin : BaseUnityPlugin
 {
     private readonly Dictionary<string, SliderProps> sliderProps = new();
     private readonly List<string> hiddenKeys = new();
+    private readonly Dictionary<Type, AddCustomControlCallback> customControlCallbacks = new();
 
     private void Start()
     {
@@ -50,9 +52,19 @@ public class Plugin : BaseUnityPlugin
                         var props = GetSliderProps(config);
                         screen.AddSlider(config as ConfigEntry<float>, config.Definition.Key, props.Min, props.Max, props.Step, config.Description.Description);
                     }
+                    else if (customControlCallbacks.ContainsKey(config.SettingType))
+                    {
+                        customControlCallbacks[config.SettingType](screen, config);
+                    }
                 }
             });
         }
+    }
+
+    public delegate void AddCustomControlCallback(CustomOptionsScreen screen, ConfigEntryBase configEntry);
+    public void AddConfigType<T>(AddCustomControlCallback callback)
+    {
+        customControlCallbacks[typeof(T)] = callback;
     }
 
     public void Hide(params ConfigEntryBase[] configs)

@@ -1,6 +1,7 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
+using OriModding.BF.Core;
 using OriModding.BF.UiLib.Menu;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace OriModding.BF.InputLib;
 [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
 [BepInDependency(Core.PluginInfo.PLUGIN_GUID)]
 [BepInDependency(UiLib.PluginInfo.PLUGIN_GUID, BepInDependency.DependencyFlags.SoftDependency)]
+[BepInDependency(ConfigMenu.PluginInfo.PLUGIN_GUID, BepInDependency.DependencyFlags.SoftDependency)]
 public class Plugin : BaseUnityPlugin
 {
     private readonly List<ConfigEntry<CustomInput>> customInputs = new List<ConfigEntry<CustomInput>>();
@@ -28,7 +30,17 @@ public class Plugin : BaseUnityPlugin
             ConvertToObject = (str, type) => CustomInput.FromString(str)
         });
 
+        if (this.TryGetPlugin(ConfigMenu.PluginInfo.PLUGIN_GUID, out ConfigMenu.Plugin configMenu))
+        {
+            configMenu.AddConfigType<CustomInput>((screen, c) => screen.AddInputBind(c as ConfigEntry<CustomInput>));
+        }
+
         button = BindAndRegister(this, "INPUT", "Stomp", new CustomInput().AddKeyCodes(KeyCode.I));
+        BindAndRegister(this, "RANDO", "Return to Start", new CustomInput().AddChord(KeyCode.LeftAlt, KeyCode.R));
+        BindAndRegister(this, "RANDO", "Reload Seed", new CustomInput().AddChord(KeyCode.LeftAlt, KeyCode.L));
+        BindAndRegister(this, "RANDO", "Show Stats", new CustomInput().AddChord(KeyCode.LeftAlt, KeyCode.Alpha3));
+        BindAndRegister(this, "RANDO", "Show Progress", new CustomInput().AddChord(KeyCode.LeftAlt, KeyCode.T));
+        BindAndRegister(this, "RANDO", "Show Last Pickup", new CustomInput().AddChord(KeyCode.LeftAlt, KeyCode.P));
 
         AddDetours();
 

@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Text;
 using BepInEx;
 using BepInEx.Bootstrap;
 
@@ -35,6 +36,19 @@ public static class FilesystemHelpers
 
 public static class BepInExHelper
 {
-    public static bool IsPluginLoaded(string guid)
+    public static bool IsPluginLoaded(this BaseUnityPlugin _, string guid)
         => Chainloader.PluginInfos.ContainsKey(guid);
+
+    public static bool TryGetPlugin<T>(this BaseUnityPlugin _, string guid, out T plugin) where T : BaseUnityPlugin
+    {
+        var loaded = Chainloader.PluginInfos.TryGetValue(guid, out var pi);
+        if (loaded)
+        {
+            plugin = (T)pi.Instance;
+            return true;
+        }
+
+        plugin = default;
+        return false;
+    }
 }

@@ -39,6 +39,14 @@ public class CustomInput
         return this;
     }
 
+    public CustomInput AddChord(params KeyCode[] keyCodes)
+    {
+        var chord = new ChordedButtonInput();
+        chord.AddKeyCodes(keyCodes);
+        input.Add(chord);
+        return this;
+    }
+
     internal string Serialise()
     {
         if (input.Buttons == null)
