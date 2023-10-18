@@ -30,9 +30,9 @@ public enum ControllerButton
     Start
 }
 
-internal static class ControllerButtonExtensions
+public static class ControllerButtonExtensions
 {
-    public static ControllerButton ToControllerButton(this ControllerButtonInput input)
+    internal static ControllerButton ToControllerButton(this ControllerButtonInput input)
     {
         switch (input.Button)
         {
@@ -64,7 +64,7 @@ internal static class ControllerButtonExtensions
         return ControllerButton.Start;
     }
 
-    public static ControllerButton ToControllerButton(this AxisButtonInput axisInput)
+    internal static ControllerButton ToControllerButton(this AxisButtonInput axisInput)
     {
         switch ((axisInput.GetAxisInput() as ControllerAxisInput).Axis)
         {
@@ -87,7 +87,7 @@ internal static class ControllerButtonExtensions
         return ControllerButton.Start;
     }
 
-    public static IButtonInput ToButtonInput(this ControllerButton button)
+    internal static IButtonInput ToButtonInput(this ControllerButton button)
     {
         switch (button)
         {
@@ -142,5 +142,38 @@ internal static class ControllerButtonExtensions
             default:
                 return null;
         }
+    }
+
+    const float Deadzone = 0.5f;
+    public static bool IsPressed(this ControllerButton button)
+    {
+        switch (button)
+        {
+            case ControllerButton.FaceA: return XboxControllerInput.GetButton(XboxControllerInput.Button.ButtonA);
+            case ControllerButton.FaceB: return XboxControllerInput.GetButton(XboxControllerInput.Button.ButtonB);
+            case ControllerButton.FaceX: return XboxControllerInput.GetButton(XboxControllerInput.Button.ButtonX);
+            case ControllerButton.FaceY: return XboxControllerInput.GetButton(XboxControllerInput.Button.ButtonY);
+            case ControllerButton.LT: return XboxControllerInput.GetButton(XboxControllerInput.Button.LeftTrigger);
+            case ControllerButton.RT: return XboxControllerInput.GetButton(XboxControllerInput.Button.RightTrigger);
+            case ControllerButton.LB: return XboxControllerInput.GetButton(XboxControllerInput.Button.LeftShoulder);
+            case ControllerButton.RB: return XboxControllerInput.GetButton(XboxControllerInput.Button.RightShoulder);
+            case ControllerButton.LS: return XboxControllerInput.GetButton(XboxControllerInput.Button.LeftStick);
+            case ControllerButton.RS: return XboxControllerInput.GetButton(XboxControllerInput.Button.RightStick);
+            case ControllerButton.Back: return XboxControllerInput.GetButton(XboxControllerInput.Button.Select);
+            case ControllerButton.Start: return XboxControllerInput.GetButton(XboxControllerInput.Button.Start);
+            case ControllerButton.LUp: return XboxControllerInput.GetAxis(XboxControllerInput.Axis.LeftStickY) > Deadzone;
+            case ControllerButton.LDown: return XboxControllerInput.GetAxis(XboxControllerInput.Axis.LeftStickY) < -Deadzone;
+            case ControllerButton.LLeft: return XboxControllerInput.GetAxis(XboxControllerInput.Axis.LeftStickX) < -Deadzone;
+            case ControllerButton.LRight: return XboxControllerInput.GetAxis(XboxControllerInput.Axis.LeftStickX) > Deadzone;
+            case ControllerButton.DUp: return XboxControllerInput.GetAxis(XboxControllerInput.Axis.DpadY) > Deadzone;
+            case ControllerButton.DDown: return XboxControllerInput.GetAxis(XboxControllerInput.Axis.DpadY) < -Deadzone;
+            case ControllerButton.DLeft: return XboxControllerInput.GetAxis(XboxControllerInput.Axis.DpadX) < -Deadzone;
+            case ControllerButton.DRight: return XboxControllerInput.GetAxis(XboxControllerInput.Axis.DpadX) > Deadzone;
+            case ControllerButton.RUp: return XboxControllerInput.GetAxis(XboxControllerInput.Axis.RightStickY) > Deadzone;
+            case ControllerButton.RDown: return XboxControllerInput.GetAxis(XboxControllerInput.Axis.RightStickY) < -Deadzone;
+            case ControllerButton.RLeft: return XboxControllerInput.GetAxis(XboxControllerInput.Axis.RightStickX) < -Deadzone;
+            case ControllerButton.RRight: return XboxControllerInput.GetAxis(XboxControllerInput.Axis.RightStickX) > Deadzone;
+        }
+        return false;
     }
 }

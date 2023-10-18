@@ -3,6 +3,7 @@ using OriModding.BF.Core;
 using OriModding.BF.UiLib.Menu;
 using SmartInput;
 using System;
+using System.Linq;
 using UnityEngine;
 
 namespace OriModding.BF.InputLib;
@@ -10,6 +11,29 @@ namespace OriModding.BF.InputLib;
 public class KeybindControl : MonoBehaviour
 {
     private CustomInput newInput;
+
+    private bool editing;
+
+    private MessageBox messageBox;
+
+    private int exit;
+
+    private CustomOptionsScreen owner;
+    private ConfigEntry<CustomInput> inputConfig;
+    private static KeyCode[] keyCodes;
+    private static ControllerButton[] controllerButtons;
+    private bool[] controllerButtonsPressed;
+    private BasicMessageProvider tooltipProvider;
+
+    public void Init(ConfigEntry<CustomInput> input, CustomOptionsScreen owner)
+    {
+        this.owner = owner;
+        inputConfig = input;
+
+        keyCodes ??= ((KeyCode[])Enum.GetValues(typeof(KeyCode))).Where(kc => kc < KeyCode.JoystickButton0).ToArray();
+        controllerButtons ??= (ControllerButton[])Enum.GetValues(typeof(ControllerButton));
+        controllerButtonsPressed = new bool[controllerButtons.Length];
+    }
 
     private void Awake()
     {
@@ -23,37 +47,28 @@ public class KeybindControl : MonoBehaviour
         owner.tooltipController.UpdateTooltip();
     }
 
-    public void BeginEditing()
-    {
-        newInput = new CustomInput();
-        newInput.LoadFromString(inputConfig.Value.Serialise());
-
-        SuspensionManager.SuspendAll();
-
-        editing = true;
-        exit = 0;
-        tooltipProvider.SetMessage("Backspace: remove bind\n<icon>D</>: finish editing");
-        owner.tooltipController.UpdateTooltip();
-    }
 
     private int CurrentInputCount => newInput.input.Buttons?.Length ?? 0;
-    private bool CurrentInputContains(KeyCode kc)
-    {
-        if (newInput.input.Buttons == null)
-            return false;
 
-        foreach (var button in newInput.input.Buttons)
-        {
-            if (button is KeyCodeButtonInput kcbi && kcbi.KeyCode == kc)
-                return true;
-        }
-        return false;
-    }
     private IButtonInput Top()
     {
-        if (newInput.input.Buttons?.Length > 0)
+        if (newInput.input.Buttons != null && newInput.input.Buttons.Length > 0)
             return newInput.input.Buttons[newInput.input.Buttons.Length - 1];
         return null;
+    }
+
+    private bool Equals(IButtonInput button, KeyCode kc)
+    {
+        return button is KeyCodeButtonInput k && k.KeyCode == kc;
+    }
+
+    private bool Equals(IButtonInput button, ControllerButton cb)
+    {
+        if (button is ControllerButtonInput cbi && cbi.ToControllerButton() == cb)
+            return true;
+        if (button is AxisButtonInput abi && abi.ToControllerButton() == cb)
+            return true;
+        return false;
     }
 
     public void Update()
@@ -67,11 +82,13 @@ public class KeybindControl : MonoBehaviour
             exit++;
             return;
         }
-        if (Input.GetKeyDown(KeyCode.Return) && CurrentInputCount > 0)
+        if ((Input.GetKeyDown(KeyCode.Return) || WasPressed(ControllerButton.Start)) && CurrentInputCount > 0)
         {
             FinishEditing();
             return;
         }
+
+
         if (Input.GetKeyDown(KeyCode.Backspace))
         {
             if (CurrentInputCount > 0)
@@ -84,37 +101,93 @@ public class KeybindControl : MonoBehaviour
         }
         else if (Input.anyKeyDown)
         {
-            foreach (KeyCode keyCode in keyCodes)
-            {
-                if (Input.GetKeyDown(keyCode))
-                {
-                    var top = Top();
-                    if (top is KeyCodeButtonInput kcbi && Input.GetKey(kcbi.KeyCode))
-                    {
-                        // Convert to chorded input
-                        newInput.input.Buttons[newInput.input.Buttons.Length - 1] = new ChordedButtonInput
-                        {
-                            Buttons = new[] { top, new KeyCodeButtonInput(keyCode) }
-                        };
-                        UpdateMessageBox();
-                        return;
-                    }
-                    else if (top is ChordedButtonInput cbi && cbi.Buttons.Length > 0 && cbi.Buttons[0].GetButton())
-                    {
-                        Array.Resize(ref cbi.Buttons, cbi.Buttons.Length + 1);
-                        cbi.Buttons[cbi.Buttons.Length - 1] = new KeyCodeButtonInput(keyCode);
-                        UpdateMessageBox();
-                        return;
-                    }
+            HandleKeyboard();
+        }
 
-                    if (!CurrentInputContains(keyCode))
+        HandleController();
+
+        foreach (ControllerButton button in controllerButtons)
+        {
+            controllerButtonsPressed[(int)button] = button.IsPressed();
+        }
+    }
+
+    private void HandleKeyboard()
+    {
+        foreach (KeyCode keyCode in keyCodes)
+        {
+            if (Input.GetKeyDown(keyCode))
+            {
+                var top = Top();
+                if (top != null && top.GetButton() && !Equals(top, keyCode))
+                {
+                    // Convert to chorded input
+                    newInput.input.Buttons[newInput.input.Buttons.Length - 1] = new ChordedButtonInput
                     {
-                        newInput.AddKeyCodes(keyCode);
-                        UpdateMessageBox();
-                    }
+                        Buttons = new[] { top, new KeyCodeButtonInput(keyCode) }
+                    };
                 }
+                else if (top is ChordedButtonInput cbi && cbi.Buttons.Length > 0 && cbi.Buttons[0].GetButton() && !Equals(cbi.Buttons[0], keyCode))
+                {
+                    Array.Resize(ref cbi.Buttons, cbi.Buttons.Length + 1);
+                    cbi.Buttons[cbi.Buttons.Length - 1] = new KeyCodeButtonInput(keyCode);
+                }
+                else
+                {
+                    newInput.AddKeyCodes(keyCode);
+                }
+                UpdateMessageBox();
+                return;
             }
         }
+    }
+
+    private void HandleController()
+    {
+        var pressedButton = GetPressedButtonAsBind();
+        if (pressedButton != null)
+        {
+            var top = Top();
+            if (top != null && top.GetButton() && !Equals(top, pressedButton.Value))
+            {
+                // Convert to chorded input
+                newInput.input.Buttons[newInput.input.Buttons.Length - 1] = new ChordedButtonInput
+                {
+                    Buttons = new[] { top, pressedButton.Value.ToButtonInput() }
+                };
+            }
+            else if (top is ChordedButtonInput cbi && cbi.Buttons.Length > 0 && cbi.Buttons[0].GetButton() && !Equals(cbi.Buttons[0], pressedButton.Value))
+            {
+                Array.Resize(ref cbi.Buttons, cbi.Buttons.Length + 1);
+                cbi.Buttons[cbi.Buttons.Length - 1] = pressedButton.Value.ToButtonInput();
+            }
+            else
+            {
+                newInput.input.Add(pressedButton.Value.ToButtonInput());
+            }
+            UpdateMessageBox();
+        }
+    }
+
+    private bool WasPressed(ControllerButton button)
+    {
+        return !controllerButtonsPressed[(int)button] && button.IsPressed();
+    }
+
+    public void BeginEditing()
+    {
+        newInput = new CustomInput();
+        newInput.LoadFromString(inputConfig.Value.Serialise());
+
+        SuspensionManager.SuspendAll();
+
+        editing = true;
+        exit = 0;
+        tooltipProvider.SetMessage("Backspace: remove bind\n<icon>D</>: finish editing");
+        owner.tooltipController.UpdateTooltip();
+
+        for (int i = 0; i < controllerButtonsPressed.Length; i++)
+            controllerButtonsPressed[i] = true;
     }
 
     private void FinishEditing()
@@ -123,7 +196,7 @@ public class KeybindControl : MonoBehaviour
         SuspensionManager.ResumeAll();
         PlayerInput.Instance.RefreshControlScheme();
         inputConfig.Value = newInput;
-        tooltipProvider.SetMessage("<icon>D</>: add or remove binds");
+        tooltipProvider.SetMessage("[Accept]: add or remove binds");
         owner.tooltipController.UpdateTooltip();
     }
 
@@ -138,23 +211,16 @@ public class KeybindControl : MonoBehaviour
         editing = false;
     }
 
-    public void Init(ConfigEntry<CustomInput> input, CustomOptionsScreen owner)
+    private ControllerButton? GetPressedButtonAsBind()
     {
-        this.owner = owner;
-        inputConfig = input;
+        foreach (ControllerButton button in controllerButtons)
+        {
+            if (WasPressed(button))
+            {
+                return button;
+            }
+        }
 
-        keyCodes = (KeyCode[])Enum.GetValues(typeof(KeyCode));
+        return null;
     }
-
-
-    private bool editing;
-
-    private MessageBox messageBox;
-
-    private int exit;
-
-    private CustomOptionsScreen owner;
-    private ConfigEntry<CustomInput> inputConfig;
-    private KeyCode[] keyCodes;
-    private BasicMessageProvider tooltipProvider;
 }
