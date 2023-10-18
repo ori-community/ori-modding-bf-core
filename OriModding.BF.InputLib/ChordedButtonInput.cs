@@ -65,8 +65,6 @@ public class ChordedButtonInput : IButtonInput
 
     internal void LoadFromString(string str)
     {
-        Plugin.Logger.LogInfo("Loading from string: " + str);
-
         string[] parts = str.Split(new[] { '+' }, StringSplitOptions.RemoveEmptyEntries);
         foreach (var part in parts)
         {

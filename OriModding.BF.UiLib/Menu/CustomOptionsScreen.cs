@@ -43,6 +43,7 @@ public class CustomOptionsScreen : MonoBehaviour
         tooltipController.enabled = true;
 
         InitScreen();
+        gameObject.AddComponent<MenuScroller>();
         selectionManager.SetCurrentItem(0);
     }
 

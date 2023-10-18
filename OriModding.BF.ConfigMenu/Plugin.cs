@@ -62,6 +62,7 @@ public class Plugin : BaseUnityPlugin
     }
 
     public delegate void AddCustomControlCallback(CustomOptionsScreen screen, ConfigEntryBase configEntry);
+    ///<summary>Enables the ConfigMenu plugin to add controls for types it doesn't know about</summary>
     public void AddConfigType<T>(AddCustomControlCallback callback)
     {
         customControlCallbacks[typeof(T)] = callback;
