@@ -4,7 +4,6 @@ using BepInEx.Logging;
 using OriModding.BF.Core;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace OriModding.BF.InputLib;
 
@@ -30,32 +29,11 @@ public class Plugin : BaseUnityPlugin
             ConvertToObject = (str, type) => CustomInput.FromString(str)
         });
 
-        if (this.TryGetPlugin(ConfigMenu.PluginInfo.PLUGIN_GUID, out ConfigMenu.Plugin configMenu))
+        if (this.TryGetPlugin(ConfigMenu.PluginInfo.PLUGIN_GUID, out var configMenuPlugin))
         {
+            var configMenu = configMenuPlugin as ConfigMenu.Plugin;
             configMenu.AddConfigType<CustomInput>((screen, c) => screen.AddInputBind(c as ConfigEntry<CustomInput>));
         }
-
-        button = BindAndRegister(this, "INPUT", "Stomp", new CustomInput().AddKeyCodes(KeyCode.I));
-        BindAndRegister(this, "RANDO", "1Return to Start", new CustomInput().AddChord(KeyCode.LeftAlt, KeyCode.R));
-        BindAndRegister(this, "RANDO", "R2eload Seed", new CustomInput().AddChord(KeyCode.LeftAlt, KeyCode.L));
-        BindAndRegister(this, "RANDO", "Sh3ow Stats", new CustomInput().AddChord(KeyCode.LeftAlt, KeyCode.Alpha3));
-        BindAndRegister(this, "RANDO", "Sho4w Progress", new CustomInput().AddChord(KeyCode.LeftAlt, KeyCode.T));
-        BindAndRegister(this, "RANDO", "Show5 Last Pickup", new CustomInput().AddChord(KeyCode.LeftAlt, KeyCode.P));
-        BindAndRegister(this, "RANDO", "Retur6n to Start", new CustomInput().AddChord(KeyCode.LeftAlt, KeyCode.R));
-        BindAndRegister(this, "RANDO", "Reload7 Seed", new CustomInput().AddChord(KeyCode.LeftAlt, KeyCode.L));
-        BindAndRegister(this, "RANDO", "Show St8ats", new CustomInput().AddChord(KeyCode.LeftAlt, KeyCode.Alpha3));
-        BindAndRegister(this, "RANDO", "Show Pro9gress", new CustomInput().AddChord(KeyCode.LeftAlt, KeyCode.T));
-        BindAndRegister(this, "RANDO", "Show Last0 Pickup", new CustomInput().AddChord(KeyCode.LeftAlt, KeyCode.P));
-        BindAndRegister(this, "RANDO", "Return to 1Start", new CustomInput().AddChord(KeyCode.LeftAlt, KeyCode.R));
-        BindAndRegister(this, "RANDO", "Reload See2d", new CustomInput().AddChord(KeyCode.LeftAlt, KeyCode.L));
-        BindAndRegister(this, "RANDO", "Show Stats3", new CustomInput().AddChord(KeyCode.LeftAlt, KeyCode.Alpha3));
-        BindAndRegister(this, "RANDO", "Show Prog5ress", new CustomInput().AddChord(KeyCode.LeftAlt, KeyCode.T));
-        BindAndRegister(this, "RANDO", "Show Last4 Pickup", new CustomInput().AddChord(KeyCode.LeftAlt, KeyCode.P));
-        BindAndRegister(this, "RANDO", "Return t6o Start", new CustomInput().AddChord(KeyCode.LeftAlt, KeyCode.R));
-        BindAndRegister(this, "RANDO", "Reload 7Seed", new CustomInput().AddChord(KeyCode.LeftAlt, KeyCode.L));
-        BindAndRegister(this, "RANDO", "Show 8Stats", new CustomInput().AddChord(KeyCode.LeftAlt, KeyCode.Alpha3));
-        BindAndRegister(this, "RANDO", "Show Pr9ogress", new CustomInput().AddChord(KeyCode.LeftAlt, KeyCode.T));
-        BindAndRegister(this, "RANDO", "Show1 Last Pickup", new CustomInput().AddChord(KeyCode.LeftAlt, KeyCode.P));
 
 
         AddDetours();

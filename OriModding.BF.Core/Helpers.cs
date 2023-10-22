@@ -1,7 +1,6 @@
-﻿using System.IO;
-using System.Text;
-using BepInEx;
+﻿using BepInEx;
 using BepInEx.Bootstrap;
+using System.IO;
 
 namespace OriModding.BF.Core;
 
@@ -36,15 +35,22 @@ public static class FilesystemHelpers
 
 public static class BepInExHelper
 {
+    /// <summary>
+    /// Returns true if the plugin is loaded, false otherwise. Use [<see cref="BepInDependency"/>] to ensure the dependency is loaded first.
+    /// </summary>
     public static bool IsPluginLoaded(this BaseUnityPlugin _, string guid)
         => Chainloader.PluginInfos.ContainsKey(guid);
 
-    public static bool TryGetPlugin<T>(this BaseUnityPlugin _, string guid, out T plugin) where T : BaseUnityPlugin
+    /// <summary>
+    /// Gets a plugin if it is loaded. Cast to your type if this returns true to avoid dependency issues
+    /// with missing optional plugins.
+    /// </summary>
+    public static bool TryGetPlugin(this BaseUnityPlugin _, string guid, out BaseUnityPlugin plugin)
     {
         var loaded = Chainloader.PluginInfos.TryGetValue(guid, out var pi);
         if (loaded)
         {
-            plugin = (T)pi.Instance;
+            plugin = pi.Instance;
             return true;
         }
 
