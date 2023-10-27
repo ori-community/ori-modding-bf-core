@@ -16,7 +16,6 @@ public class Plugin : BaseUnityPlugin
     private readonly List<ConfigEntry<CustomInput>> customInputs = new List<ConfigEntry<CustomInput>>();
 
     internal static new ManualLogSource Logger;
-    private ConfigEntry<CustomInput> button;
 
     private void Awake()
     {
@@ -55,18 +54,6 @@ public class Plugin : BaseUnityPlugin
         {
             Logger.LogError(ex);
             throw;
-        }
-    }
-
-    void FixedUpdate()
-    {
-        if (button.Value.OnPressed)
-        {
-            Logger.LogInfo("Pressed the button!");
-        }
-        else if (button.Value.OnReleased)
-        {
-            Logger.LogInfo("Released the button!");
         }
     }
 

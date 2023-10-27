@@ -18,10 +18,15 @@ public class CustomInput
         set => processor.Used = value;
     }
 
+    /// <summary>Was pressed this frame</summary>
     public bool OnPressed => processor.OnPressed;
+    /// <summary>Was pressed this frame, but has not been used</summary>
     public bool OnPressedNotUsed => processor.OnPressedNotUsed;
+    /// <summary>Was released this frame</summary>
     public bool OnReleased => processor.OnReleased;
+    /// <summary>Is currently pressed</summary>
     public bool Pressed => processor.Pressed;
+    /// <summary>Is currently not pressed</summary>
     public bool Released => processor.Released;
 
     public void Clear()
@@ -49,6 +54,13 @@ public class CustomInput
         return this;
     }
 
+    public CustomInput AddControllerButtons(params ControllerButton[] buttons)
+    {
+        for (int i = 0; i < buttons.Length; i++)
+            input.Add(buttons[i].ToButtonInput());
+        return this;
+    }
+
     internal string Serialise()
     {
         if (input.Buttons == null)
@@ -57,14 +69,7 @@ public class CustomInput
         var sb = new StringBuilder();
         foreach (var button in input.Buttons)
         {
-            if (button is KeyCodeButtonInput kcbi)
-            {
-                sb.Append(kcbi.KeyCode.ToString());
-            }
-            else if (button is ChordedButtonInput cbi)
-            {
-                sb.Append(cbi.Serialise());
-            }
+            sb.Append(SerialiseButton(button));
             sb.Append(",");
         }
         return sb.ToString().TrimEnd(',');

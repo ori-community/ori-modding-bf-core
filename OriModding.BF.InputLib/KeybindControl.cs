@@ -163,7 +163,7 @@ public class KeybindControl : MonoBehaviour
             }
             else
             {
-                newInput.input.Add(pressedButton.Value.ToButtonInput());
+                newInput.AddControllerButtons(pressedButton.Value);
             }
             UpdateMessageBox();
         }
