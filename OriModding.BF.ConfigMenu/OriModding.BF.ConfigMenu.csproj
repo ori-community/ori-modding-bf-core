@@ -31,7 +31,6 @@
   
   <ItemGroup>
     <ProjectReference Include="..\OriModding.BF.Core\OriModding.BF.Core.csproj" />
-    <ProjectReference Include="..\OriModding.BF.UiLib\OriModding.BF.UiLib.csproj" />
   </ItemGroup>
 
   <ItemGroup>

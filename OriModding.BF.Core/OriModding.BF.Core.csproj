@@ -12,6 +12,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="UiLib\README.md" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all" />
     <PackageReference Include="BepInEx.Core" Version="5.*" />
     <PackageReference Include="CSVFile" Version="3.1.2" />
@@ -36,5 +40,9 @@
     <Content Include="README.md" Pack="true" PackagePath="\" />
     <Content Include="lib/Assembly-CSharp.dll" Pack="true" PackagePath="lib\$(TargetFramework)" />
     <Content Include="lib/MMHOOK_Assembly-CSharp.dll" Pack="true" PackagePath="lib\$(TargetFramework)" />
+    <Content Include="UiLib\README.md">
+      <PackagePath>\</PackagePath>
+      <Pack>true</Pack>
+    </Content>
   </ItemGroup>
 </Project>

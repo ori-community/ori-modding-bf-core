@@ -2,6 +2,7 @@
 using BepInEx.Logging;
 using HarmonyLib;
 using OriModding.BF.l10n;
+using OriModding.BF.UiLib;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,6 +22,8 @@ public class Plugin : BaseUnityPlugin
 
         new Harmony(PluginInfo.PLUGIN_GUID).PatchAll();
         Hooks.Hooks.SetupHooks();
+
+        TitleScreenModMenu.Init();
 
         SceneBootstrap.RegisterHandler(bootstrap =>
         {

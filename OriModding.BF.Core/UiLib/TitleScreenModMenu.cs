@@ -31,6 +31,10 @@ internal class TitleScreenModMenu
                 {
                     HintsPlus.Show(messageProvider, OnScreenPositions.MiddleLeft);
                 });
+
+
+                sceneRoot.transform.Find("art/*unsorted/windTunnelsHousingFlagD").GetComponent<MeshRenderer>().material.color = new Color(0, 1, 0, 1);
+                sceneRoot.transform.Find("art/*unsorted/windTunnelsHousingFlagC").GetComponent<MeshRenderer>().material.color = new Color(0, 1, 0, 1);
             }
         };
     }

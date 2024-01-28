@@ -9,7 +9,6 @@ using System.Linq;
 namespace OriModding.BF.ConfigMenu;
 
 [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
-[BepInDependency(UiLib.PluginInfo.PLUGIN_GUID)]
 [BepInDependency(Core.PluginInfo.PLUGIN_GUID)]
 public class Plugin : BaseUnityPlugin
 {

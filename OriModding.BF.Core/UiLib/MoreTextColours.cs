@@ -1,12 +1,13 @@
 ﻿using CatlikeCoding.TextBox;
 using HarmonyLib;
+using OriModding.BF.Core;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
 using UnityEngine;
 
-namespace OriModding.BF.Core;
+namespace OriModding.BF.UiLib;
 
 [HarmonyPatch]
 internal class MoreTextColours
