@@ -56,7 +56,5 @@ internal class HookControllers
 
             controller.callback?.Invoke(c);
         }
-
-        Hooks.Hooks.OnGameControllerInitialised?.Invoke();
     }
 }

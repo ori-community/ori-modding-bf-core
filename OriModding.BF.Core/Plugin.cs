@@ -21,7 +21,6 @@ public class Plugin : BaseUnityPlugin
         Logger = base.Logger;
 
         new Harmony(PluginInfo.PLUGIN_GUID).PatchAll();
-        Hooks.Hooks.SetupHooks();
 
         TitleScreenModMenu.Init();
 

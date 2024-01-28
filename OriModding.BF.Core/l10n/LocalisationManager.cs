@@ -15,8 +15,9 @@ internal class LocalisationManager : IDisposable
 
     public LocalisationManager()
     {
-        Core.Hooks.Hooks.OnGameControllerInitialised += () =>
+        On.GameController.Awake += (orig, self) =>
         {
+            orig(self);
             Events.Scheduler.OnGameLanguageChange.Add(OnLanguageChanged);
         };
 

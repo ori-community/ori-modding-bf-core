@@ -15,7 +15,11 @@ public class SceneBootstrap : MonoBehaviour
     private void Awake()
     {
         Events.Scheduler.OnSceneRootPreEnabled.Add(OnSceneRootPreEnabled);
-        Hooks.Hooks.Scene.OnSceneRootUnloaded += OnSceneRootUnloaded;
+        On.SceneRoot.Unload += (orig, self) =>
+        {
+            orig(self);
+            OnSceneRootUnloaded(self.name);
+        };
     }
 
     private void OnSceneRootPreEnabled(SceneRoot sceneRoot)
