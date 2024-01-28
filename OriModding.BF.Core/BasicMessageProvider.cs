@@ -28,4 +28,6 @@ public class BasicMessageProvider : MessageProvider
     }
 
     public MessageDescriptor[] messages;
+
+    public static BasicMessageProvider New() => CreateInstance<BasicMessageProvider>();
 }

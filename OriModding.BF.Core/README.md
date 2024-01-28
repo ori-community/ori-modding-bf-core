@@ -34,7 +34,7 @@ public class Plugin : BaseUnityPlugin
 }
 ```
 
-## Usage: MonoMod.RuntimeDetours
+### Usage: MonoMod.RuntimeDetours
 
 Use the `On.<Type>.<Method>` event to inject code.
 
@@ -49,7 +49,7 @@ On.GameController.Awake += (orig, self) =>
 
 See the [MonoMod docs](https://github.com/MonoMod/MonoMod/blob/master/README-RuntimeDetour.md#using-hookgen) for more details.
 
-## Usage: Harmony
+### Usage: Harmony
 
 Use `Harmony` attributes to inject code.
 
@@ -82,3 +82,23 @@ static class GameControllerHarmonyPatch
 ```
 
 See the [Harmony docs](https://harmony.pardeike.net/articles/patching.html) for more details.
+
+## OriModding.BF.l10n
+
+Localisation support for providing translations of mods.
+
+To use localised strings, create `strings.csv` in the root of the mod directory. Example:
+
+```csv
+,English,Italian
+SPIRIT_FLAME,Spirit Flame,Fiamma dello spirito
+```
+
+Then fetch it in code:
+
+```c#
+using OriModding.BF.l10n;
+Strings.Get("SPIRIT_FLAME");
+```
+
+It will fall back to English for any given key if a translation isn't found.

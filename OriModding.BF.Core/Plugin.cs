@@ -1,6 +1,7 @@
 ﻿using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
+using OriModding.BF.l10n;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,8 @@ namespace OriModding.BF.Core;
 public class Plugin : BaseUnityPlugin
 {
     public static new ManualLogSource Logger;
+
+    private LocalisationManager localisationManager;
 
     private void Awake()
     {
@@ -31,6 +34,13 @@ public class Plugin : BaseUnityPlugin
             };
         });
 
+        localisationManager = new LocalisationManager();
+
         Logger.LogInfo($"Plugin {PluginInfo.PLUGIN_GUID} is loaded!");
+    }
+
+    private void OnDestroy()
+    {
+        localisationManager.Dispose();
     }
 }

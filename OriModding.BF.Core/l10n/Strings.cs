@@ -2,11 +2,11 @@
 
 public static class Strings
 {
-    internal static Plugin plugin;
+    internal static LocalisationManager manager;
 
     public static string Get(string key)
     {
-        if (plugin.strings.TryGetValue(key, out var value))
+        if (manager.strings.TryGetValue(key, out var value))
             return value;
         return $"WARNING: String not found for key \"{key}\"";
     }

@@ -2,28 +2,28 @@
 using BepInEx.Bootstrap;
 using CSVFile;
 using Game;
+using OriModding.BF.Core;
 using System;
 using System.Collections.Generic;
 using System.IO;
 
 namespace OriModding.BF.l10n;
 
-[BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
-public class Plugin : BaseUnityPlugin
+internal class LocalisationManager : IDisposable
 {
     internal Dictionary<string, string> strings = new Dictionary<string, string>();
 
-    private void Awake()
+    public LocalisationManager()
     {
         Core.Hooks.Hooks.OnGameControllerInitialised += () =>
         {
             Events.Scheduler.OnGameLanguageChange.Add(OnLanguageChanged);
         };
 
-        Strings.plugin = this;
+        Strings.manager = this;
     }
 
-    private void OnDestroy()
+    public void Dispose()
     {
         Events.Scheduler.OnGameLanguageChange.Remove(OnLanguageChanged);
     }
@@ -47,13 +47,13 @@ public class Plugin : BaseUnityPlugin
 
     private void LoadLanguage(string path, Language language)
     {
-        Logger.LogInfo("Loading strings from " + path);
+        Plugin.Logger.LogInfo("Loading strings from " + path);
         using var reader = CSVReader.FromFile(path);
 
         int index = Find(reader.Headers, language.ToString());
         if (index == -1)
         {
-            Logger.LogWarning($"No language info found for {language}");
+            Plugin.Logger.LogWarning($"No language info found for {language}");
             return;
         }
 
