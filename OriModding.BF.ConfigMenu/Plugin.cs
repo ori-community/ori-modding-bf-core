@@ -1,6 +1,7 @@
 ﻿using BepInEx;
 using BepInEx.Bootstrap;
 using BepInEx.Configuration;
+using OriModding.BF.InputLib;
 using OriModding.BF.UiLib.Menu;
 using System;
 using System.Collections.Generic;
@@ -50,6 +51,10 @@ public class Plugin : BaseUnityPlugin
                     {
                         var props = GetSliderProps(config);
                         screen.AddSlider(config as ConfigEntry<float>, config.Definition.Key, props.Min, props.Max, props.Step, config.Description.Description);
+                    }
+                    else if (config.SettingType == typeof(CustomInput))
+                    {
+                        screen.AddInputBind(config as ConfigEntry<CustomInput>);
                     }
                     else if (customControlCallbacks.ContainsKey(config.SettingType))
                     {

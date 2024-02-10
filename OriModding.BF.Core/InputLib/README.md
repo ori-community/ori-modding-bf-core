@@ -4,7 +4,7 @@ Use this for custom controls.
 
 ```c#
 // Plugin.Awake()
-var inputLib = this.GetPlugin("OriModding.BF.InputLib");
+var inputLib = this.GetPlugin<OriModding.BF.Core.Plugin>("OriModding.BF.Core").InputManager;
 var input = inputLib.BindAndRegister(this, "MyPlugin", "MyCustomInput",
     new CustomInput()
         .AddKeyCodes(KeyCode.T)

@@ -57,4 +57,14 @@ public static class BepInExHelper
         plugin = default;
         return false;
     }
+
+    public static T GetPlugin<T>(this BaseUnityPlugin _, string guid) where T : BaseUnityPlugin
+    {
+        if (TryGetPlugin(_, guid, out var p))
+        {
+            return (T)p;
+        }
+
+        throw new System.Exception($"Plugin not found: {guid}");
+    }
 }

@@ -13,8 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OriModding.BF.Core", "OriMo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OriModding.BF.ConfigMenu", "OriModding.BF.ConfigMenu\OriModding.BF.ConfigMenu.csproj", "{6315DC70-8E88-445D-A471-54A07BC9F296}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OriModding.BF.InputLib", "OriModding.BF.InputLib\OriModding.BF.InputLib.csproj", "{0895923A-E0AF-4CE7-B561-9590796E55BC}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{6315DC70-8E88-445D-A471-54A07BC9F296}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6315DC70-8E88-445D-A471-54A07BC9F296}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6315DC70-8E88-445D-A471-54A07BC9F296}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0895923A-E0AF-4CE7-B561-9590796E55BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0895923A-E0AF-4CE7-B561-9590796E55BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0895923A-E0AF-4CE7-B561-9590796E55BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0895923A-E0AF-4CE7-B561-9590796E55BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
