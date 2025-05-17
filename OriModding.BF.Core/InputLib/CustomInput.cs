@@ -112,7 +112,7 @@ public class CustomInput
         return sb.ToString().TrimEnd(',', ' ');
     }
 
-    internal static IButtonInput[] ParseButtons(string input, char delimiter = ',')
+    public static IButtonInput[] ParseButtons(string input, char delimiter = ',')
     {
         List<IButtonInput> buttons = new List<IButtonInput>();
 
