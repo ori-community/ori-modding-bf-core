@@ -2,9 +2,9 @@
 
 ## Player Usage
 
-Install using the [Mod Manager](https://github.com/Kirefel/bf-mod-manager).
+Download the main bundle and extract to `Ori DE`.
 
-Or download and extract to `Ori DE\BepInEx\plugins\OriModding.BF.Core`.
+There should be `winhttp.dll`, `oriDE.exe`, `doorstop_config.ini` in the folder
 
 ## Developer instructions
 
